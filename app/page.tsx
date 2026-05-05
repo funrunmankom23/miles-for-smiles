@@ -43,7 +43,7 @@ const BASE_TICKETS: TicketType[] = [
     color: '#F97316',
     perks: ['Finisher Medal', 'Event T-Shirt', 'Snack Pack', 'BIB Number'],
     quota: 500,
-    remaining: 187,
+    remaining: 500,
   },
   {
     id: 'run10k',
@@ -53,7 +53,7 @@ const BASE_TICKETS: TicketType[] = [
     color: '#8B5CF6',
     perks: ['Finisher Medal', 'Event T-Shirt', 'Snack Pack', 'BIB Number', 'Certificate'],
     quota: 300,
-    remaining: 92,
+    remaining: 300,
   },
   {
     id: 'hero21k',
@@ -63,7 +63,7 @@ const BASE_TICKETS: TicketType[] = [
     color: '#EC4899',
     perks: ['Finisher Medal', 'Premium Jacket', 'Goodie Bag', 'BIB Number', 'Certificate', 'Priority Start'],
     quota: 150,
-    remaining: 43,
+    remaining: 150,
   },
 ]
 
@@ -84,13 +84,16 @@ export default function Home() {
   })
   const [orderId] = useState(() => 'MFS-' + Math.random().toString(36).substring(2, 8).toUpperCase())
 
-  // Fetch live slot counts on mount
+  // Fetch live slot counts directly from Apps Script (client-side avoids server redirect issues)
   useEffect(() => {
+    const scriptUrl = process.env.NEXT_PUBLIC_APPS_SCRIPT_URL
+    if (!scriptUrl) { setSlotsLoading(false); return }
+
     setSlotsLoading(true)
     const controller = new AbortController()
-    const timeout = setTimeout(() => controller.abort(), 5000) // 5s timeout
+    const timeout = setTimeout(() => controller.abort(), 8000)
 
-    fetch('/api/slots', { signal: controller.signal })
+    fetch(scriptUrl, { signal: controller.signal })
       .then(r => r.json())
       .then((data: Record<string, { quota: number; remaining: number }>) => {
         setTickets(prev => prev.map(t => ({
@@ -99,7 +102,7 @@ export default function Home() {
           remaining: data[t.id]?.remaining ?? t.remaining,
         })))
       })
-      .catch(() => {}) // silently fall back to defaults on timeout/error
+      .catch(() => {})
       .finally(() => { clearTimeout(timeout); setSlotsLoading(false) })
   }, [])
 
