@@ -41,11 +41,7 @@ const BASE_TICKETS: TicketType[] = [
     distance: '5K',
     price: 130K,
     color: '#F97316',
-    perks: ['Finisher Medal', 'Event T-Shirt', 'Snack Pack', 'BIB Number'],
-    quota: 500,
-    remaining: 500,
-  },
-]
+    perks: ['Finisher Medal', 'Jersey', 'Random Secret Souvenir', 'BIB Number'],
 
 export default function Home() {
   const [step, setStep] = useState<Step>('home')
@@ -57,7 +53,6 @@ export default function Home() {
     fullName: '',
     email: '',
     phone: '',
-    dob: '',
     gender: '',
     emergencyContact: '',
     shirtSize: '',
