@@ -70,6 +70,7 @@ const BASE_TICKETS: TicketType[] = [
 export default function Home() {
   const [step, setStep] = useState<Step>('home')
   const [tickets, setTickets] = useState<TicketType[]>(BASE_TICKETS)
+  const [slotsLoading, setSlotsLoading] = useState(true)
   const [formData, setFormData] = useState<FormData>({
     fullName: '',
     email: '',
@@ -85,6 +86,7 @@ export default function Home() {
 
   // Fetch live slot counts on mount
   useEffect(() => {
+    setSlotsLoading(true)
     fetch('/api/slots')
       .then(r => r.json())
       .then((data: Record<string, { quota: number; remaining: number }>) => {
@@ -95,6 +97,7 @@ export default function Home() {
         })))
       })
       .catch(() => {})
+      .finally(() => setSlotsLoading(false))
   }, [])
 
   const handleHome = () => {
@@ -145,7 +148,7 @@ export default function Home() {
           <HeroSection onGetTicket={() => {
             document.getElementById('tickets')?.scrollIntoView({ behavior: 'smooth' })
           }} />
-          <TicketsSection tickets={tickets} onSelect={(ticket) => {
+          <TicketsSection tickets={tickets} loading={slotsLoading} onSelect={(ticket) => {
             setFormData(prev => ({ ...prev, ticket }))
             setStep('register')
             window.scrollTo({ top: 0, behavior: 'smooth' })

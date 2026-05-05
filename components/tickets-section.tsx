@@ -4,6 +4,7 @@ import type { TicketType } from "@/app/page"
 
 interface TicketsSectionProps {
   tickets: TicketType[]
+  loading?: boolean
   onSelect: (ticket: TicketType) => void
 }
 
@@ -13,7 +14,7 @@ const CARD_STYLES: Record<string, { bg: string; border: string }> = {
   hero21k: { bg: 'bg-pink-50', border: 'border-pink-200' },
 }
 
-export function TicketsSection({ tickets, onSelect }: TicketsSectionProps) {
+export function TicketsSection({ tickets, loading = false, onSelect }: TicketsSectionProps) {
   return (
     <section id="tickets" className="bg-[#F0F9FF] py-20 px-4">
       <div className="max-w-6xl mx-auto">
@@ -90,13 +91,13 @@ export function TicketsSection({ tickets, onSelect }: TicketsSectionProps) {
 
                   <div className="mb-5">
                     <div className="flex justify-between text-xs text-slate-500 mb-1">
-                      <span>{ticket.remaining} sisa</span>
-                      <span>{r}%</span>
+                      <span>{loading ? '...' : `${ticket.remaining} sisa`}</span>
+                      <span>{loading ? '' : `${r}%`}</span>
                     </div>
                     <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
                       <div
-                        className="h-full rounded-full"
-                        style={{ width: `${100 - r}%`, backgroundColor: ticket.color }}
+                        className={`h-full rounded-full transition-all duration-500 ${loading ? 'animate-pulse bg-slate-300' : ''}`}
+                        style={loading ? { width: '60%' } : { width: `${100 - r}%`, backgroundColor: ticket.color }}
                       />
                     </div>
                   </div>

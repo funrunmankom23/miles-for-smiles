@@ -17,7 +17,13 @@ export async function POST(req: NextRequest) {
     })
 
     const text = await res.text()
-    return NextResponse.json(JSON.parse(text))
+    const jsonStart = text.indexOf('{')
+    const jsonEnd = text.lastIndexOf('}')
+    if (jsonStart === -1 || jsonEnd === -1) {
+      console.error('Apps Script returned non-JSON:', text.slice(0, 200))
+      return NextResponse.json({ error: 'Invalid response from Apps Script' }, { status: 500 })
+    }
+    return NextResponse.json(JSON.parse(text.slice(jsonStart, jsonEnd + 1)))
   } catch (err) {
     console.error('Failed to submit to Google Sheets:', err)
     return NextResponse.json({ error: 'Failed to save registration' }, { status: 500 })
