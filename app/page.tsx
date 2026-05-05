@@ -1,0 +1,138 @@
+"use client"
+
+import { useState } from "react"
+import { Navbar } from "@/components/navbar"
+import { HeroSection } from "@/components/hero-section"
+import { TicketsSection } from "@/components/tickets-section"
+import { RegisterForm } from "@/components/register-form"
+import { PaymentSection } from "@/components/payment-section"
+import { ConfirmationSection } from "@/components/confirmation-section"
+import { Footer } from "@/components/footer"
+
+export type Step = 'home' | 'register' | 'payment' | 'confirmation'
+
+export interface TicketType {
+  id: 'fun5k' | 'run10k' | 'hero21k'
+  name: string
+  distance: string
+  price: number
+  color: string
+  perks: string[]
+  quota: number
+  remaining: number
+}
+
+export interface FormData {
+  fullName: string
+  email: string
+  phone: string
+  dob: string
+  gender: string
+  emergencyContact: string
+  shirtSize: string
+  ticket: TicketType | null
+  paymentMethod: string
+}
+
+const TICKETS: TicketType[] = [
+  {
+    id: 'fun5k',
+    name: 'Fun Run',
+    distance: '5K',
+    price: 0,
+    color: '#F97316',
+    perks: ['Finisher Medal', 'Event T-Shirt', 'Snack Pack', 'BIB Number'],
+    quota: 500,
+    remaining: 187,
+  },
+  {
+    id: 'run10k',
+    name: 'Charity Run',
+    distance: '10K',
+    price: 75000,
+    color: '#8B5CF6',
+    perks: ['Finisher Medal', 'Event T-Shirt', 'Snack Pack', 'BIB Number', 'Certificate'],
+    quota: 300,
+    remaining: 92,
+  },
+  {
+    id: 'hero21k',
+    name: 'Hero Run',
+    distance: '21K',
+    price: 150000,
+    color: '#EC4899',
+    perks: ['Finisher Medal', 'Premium Jacket', 'Goodie Bag', 'BIB Number', 'Certificate', 'Priority Start'],
+    quota: 150,
+    remaining: 43,
+  },
+]
+
+export default function Home() {
+  const [step, setStep] = useState<Step>('home')
+  const [formData, setFormData] = useState<FormData>({
+    fullName: '',
+    email: '',
+    phone: '',
+    dob: '',
+    gender: '',
+    emergencyContact: '',
+    shirtSize: '',
+    ticket: null,
+    paymentMethod: '',
+  })
+  const [orderId] = useState(() => 'MFS-' + Math.random().toString(36).substring(2, 8).toUpperCase())
+
+  const handleHome = () => {
+    setStep('home')
+    setFormData({ fullName: '', email: '', phone: '', dob: '', gender: '', emergencyContact: '', shirtSize: '', ticket: null, paymentMethod: '' })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  return (
+    <div className="min-h-screen bg-[#1A8FD1] font-body">
+      <Navbar step={step} onHome={handleHome} />
+      {step === 'home' && (
+        <>
+          <HeroSection onGetTicket={() => {
+            document.getElementById('tickets')?.scrollIntoView({ behavior: 'smooth' })
+          }} />
+          <TicketsSection tickets={TICKETS} onSelect={(ticket) => {
+            setFormData(prev => ({ ...prev, ticket }))
+            setStep('register')
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+          }} />
+        </>
+      )}
+      {step === 'register' && formData.ticket && (
+        <RegisterForm
+          ticket={formData.ticket}
+          onSubmit={(data) => {
+            setFormData(prev => ({ ...prev, ...data }))
+            setStep('payment')
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+          }}
+          onBack={() => setStep('home')}
+        />
+      )}
+      {step === 'payment' && formData.ticket && (
+        <PaymentSection
+          formData={formData}
+          onSubmit={(paymentMethod) => {
+            setFormData(prev => ({ ...prev, paymentMethod }))
+            setStep('confirmation')
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+          }}
+          onBack={() => setStep('register')}
+        />
+      )}
+      {step === 'confirmation' && (
+        <ConfirmationSection
+          formData={formData}
+          orderId={orderId}
+          onHome={handleHome}
+        />
+      )}
+      <Footer />
+    </div>
+  )
+}
