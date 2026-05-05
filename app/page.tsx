@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Navbar } from "@/components/navbar"
 import { HeroSection } from "@/components/hero-section"
 import { TicketsSection } from "@/components/tickets-section"
@@ -34,7 +34,7 @@ export interface FormData {
   paymentMethod: string
 }
 
-const TICKETS: TicketType[] = [
+const BASE_TICKETS: TicketType[] = [
   {
     id: 'fun5k',
     name: 'Fun Run',
@@ -69,6 +69,7 @@ const TICKETS: TicketType[] = [
 
 export default function Home() {
   const [step, setStep] = useState<Step>('home')
+  const [tickets, setTickets] = useState<TicketType[]>(BASE_TICKETS)
   const [formData, setFormData] = useState<FormData>({
     fullName: '',
     email: '',
@@ -82,9 +83,57 @@ export default function Home() {
   })
   const [orderId] = useState(() => 'MFS-' + Math.random().toString(36).substring(2, 8).toUpperCase())
 
+  // Fetch live slot counts on mount
+  useEffect(() => {
+    fetch('/api/slots')
+      .then(r => r.json())
+      .then((data: Record<string, { quota: number; remaining: number }>) => {
+        setTickets(prev => prev.map(t => ({
+          ...t,
+          quota: data[t.id]?.quota ?? t.quota,
+          remaining: data[t.id]?.remaining ?? t.remaining,
+        })))
+      })
+      .catch(() => {})
+  }, [])
+
   const handleHome = () => {
     setStep('home')
     setFormData({ fullName: '', email: '', phone: '', dob: '', gender: '', emergencyContact: '', shirtSize: '', ticket: null, paymentMethod: '' })
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handlePaymentSubmit = async (paymentMethod: string) => {
+    const updated = { ...formData, paymentMethod }
+    setFormData(updated)
+
+    // Submit to Google Sheets (non-blocking — don't stop user flow on failure)
+    fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        orderId,
+        fullName: updated.fullName,
+        email: updated.email,
+        phone: updated.phone,
+        dob: updated.dob,
+        gender: updated.gender,
+        emergencyContact: updated.emergencyContact,
+        shirtSize: updated.shirtSize,
+        ticketId: updated.ticket?.id,
+        ticketName: updated.ticket?.name,
+        ticketDistance: updated.ticket?.distance,
+        paymentMethod,
+        totalPrice: updated.ticket?.price === 0 ? 'Gratis' : `Rp ${updated.ticket?.price.toLocaleString('id-ID')}`,
+      }),
+    }).catch(err => console.error('Failed to save registration:', err))
+
+    // Decrement slot count locally immediately
+    setTickets(prev => prev.map(t =>
+      t.id === updated.ticket?.id ? { ...t, remaining: Math.max(0, t.remaining - 1) } : t
+    ))
+
+    setStep('confirmation')
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
@@ -96,7 +145,7 @@ export default function Home() {
           <HeroSection onGetTicket={() => {
             document.getElementById('tickets')?.scrollIntoView({ behavior: 'smooth' })
           }} />
-          <TicketsSection tickets={TICKETS} onSelect={(ticket) => {
+          <TicketsSection tickets={tickets} onSelect={(ticket) => {
             setFormData(prev => ({ ...prev, ticket }))
             setStep('register')
             window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -117,11 +166,7 @@ export default function Home() {
       {step === 'payment' && formData.ticket && (
         <PaymentSection
           formData={formData}
-          onSubmit={(paymentMethod) => {
-            setFormData(prev => ({ ...prev, paymentMethod }))
-            setStep('confirmation')
-            window.scrollTo({ top: 0, behavior: 'smooth' })
-          }}
+          onSubmit={handlePaymentSubmit}
           onBack={() => setStep('register')}
         />
       )}
