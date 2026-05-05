@@ -7,7 +7,7 @@ export async function GET() {
   }
 
   try {
-    const res = await fetch(scriptUrl, { cache: 'no-store', redirect: 'follow' })
+    const res = await fetch(scriptUrl, { next: { revalidate: 30 }, redirect: 'follow' })
     const text = await res.text()
     console.log('Apps Script raw response:', text.slice(0, 500))
     const data = JSON.parse(text)

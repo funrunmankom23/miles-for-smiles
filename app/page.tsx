@@ -87,7 +87,10 @@ export default function Home() {
   // Fetch live slot counts on mount
   useEffect(() => {
     setSlotsLoading(true)
-    fetch('/api/slots')
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 5000) // 5s timeout
+
+    fetch('/api/slots', { signal: controller.signal })
       .then(r => r.json())
       .then((data: Record<string, { quota: number; remaining: number }>) => {
         setTickets(prev => prev.map(t => ({
@@ -96,8 +99,8 @@ export default function Home() {
           remaining: data[t.id]?.remaining ?? t.remaining,
         })))
       })
-      .catch(() => {})
-      .finally(() => setSlotsLoading(false))
+      .catch(() => {}) // silently fall back to defaults on timeout/error
+      .finally(() => { clearTimeout(timeout); setSlotsLoading(false) })
   }, [])
 
   const handleHome = () => {
