@@ -45,7 +45,11 @@ export function TicketsSection({ tickets, loading = false, onSelect }: TicketsSe
                 className={`relative rounded-3xl border-2 ${styles.border} ${styles.bg} overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col`}
               >
                 <div className="h-2" style={{ backgroundColor: ticket.color }} />
-                {almostOut && (
+                {ticket.remaining === 0 ? (
+                  <div className="absolute top-4 right-4 bg-slate-500 text-white text-[10px] font-black px-2 py-1 rounded-full">
+                    HABIS
+                  </div>
+                ) : almostOut && (
                   <div className="absolute top-4 right-4 bg-red-500 text-white text-[10px] font-black px-2 py-1 rounded-full animate-pulse">
                     HAMPIR HABIS!
                   </div>
@@ -97,17 +101,18 @@ export function TicketsSection({ tickets, loading = false, onSelect }: TicketsSe
                     <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
                       <div
                         className={`h-full rounded-full transition-all duration-500 ${loading ? 'animate-pulse bg-slate-300' : ''}`}
-                        style={loading ? { width: '60%' } : { width: `${100 - r}%`, backgroundColor: ticket.color }}
+                        style={loading ? { width: '60%' } : { width: `${r}%`, backgroundColor: ticket.color }}
                       />
                     </div>
                   </div>
 
                   <button
                     onClick={() => onSelect(ticket)}
-                    className="w-full py-3.5 rounded-2xl font-black text-white text-sm hover:opacity-90 [box-shadow:0_4px_0_var(--shadow-color)] active:translate-y-1 active:shadow-none transition-[transform,box-shadow] duration-75"
+                    disabled={loading || ticket.remaining === 0}
+                    className="w-full py-3.5 rounded-2xl font-black text-white text-sm [box-shadow:0_4px_0_var(--shadow-color)] transition-[transform,box-shadow] duration-75 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none hover:opacity-90 active:translate-y-1 active:shadow-none"
                     style={{ backgroundColor: ticket.color, '--shadow-color': `${ticket.color}88` } as React.CSSProperties}
                   >
-                    Daftar {ticket.distance} →
+                    {loading ? 'Memuat...' : ticket.remaining === 0 ? 'Slot Habis' : `Daftar ${ticket.distance} →`}
                   </button>
                 </div>
               </div>
