@@ -16,7 +16,7 @@
 //   POST (no action)    → registerParticipant → append row
 //   POST action=uploadProof → save image to Drive, update row
 //   GET                 → getSlotsData (keyed by ticket ID)
-// ============================================================
+// ==============================================================
 
 var SHEET_REGISTRATIONS = "Registrations";
 var SHEET_CONFIG        = "Config";
