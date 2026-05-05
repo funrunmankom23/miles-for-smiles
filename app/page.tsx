@@ -71,6 +71,8 @@ export default function Home() {
   const [step, setStep] = useState<Step>('home')
   const [tickets, setTickets] = useState<TicketType[]>(BASE_TICKETS)
   const [slotsLoading, setSlotsLoading] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
+  const [toast, setToast] = useState('')
   const [formData, setFormData] = useState<FormData>({
     fullName: '',
     email: '',
@@ -112,38 +114,60 @@ export default function Home() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  const showToast = (msg: string) => {
+    setToast(msg)
+    setTimeout(() => setToast(''), 4000)
+  }
+
   const handlePaymentSubmit = async (paymentMethod: string) => {
+    // Race condition check — slot may have been taken since page load
+    if ((formData.ticket?.remaining ?? 0) <= 0) {
+      showToast('Slot sudah habis! Silakan pilih kategori lain.')
+      return
+    }
+
+    setSubmitting(true)
     const updated = { ...formData, paymentMethod }
-    setFormData(updated)
 
-    // Submit to Google Sheets (non-blocking — don't stop user flow on failure)
-    fetch('/api/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        orderId,
-        fullName: updated.fullName,
-        email: updated.email,
-        phone: updated.phone,
-        dob: updated.dob,
-        gender: updated.gender,
-        emergencyContact: updated.emergencyContact,
-        shirtSize: updated.shirtSize,
-        ticketId: updated.ticket?.id,
-        ticketName: updated.ticket?.name,
-        ticketDistance: updated.ticket?.distance,
-        paymentMethod,
-        totalPrice: updated.ticket?.price === 0 ? 'Gratis' : `Rp ${updated.ticket?.price.toLocaleString('id-ID')}`,
-      }),
-    }).catch(err => console.error('Failed to save registration:', err))
+    try {
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderId,
+          fullName: updated.fullName,
+          email: updated.email,
+          phone: updated.phone,
+          dob: updated.dob,
+          gender: updated.gender,
+          emergencyContact: updated.emergencyContact,
+          shirtSize: updated.shirtSize,
+          ticketId: updated.ticket?.id,
+          ticketName: updated.ticket?.name,
+          ticketDistance: updated.ticket?.distance,
+          paymentMethod,
+          totalPrice: updated.ticket?.price === 0 ? 'Gratis' : `Rp ${updated.ticket?.price.toLocaleString('id-ID')}`,
+        }),
+      })
 
-    // Decrement slot count locally immediately
-    setTickets(prev => prev.map(t =>
-      t.id === updated.ticket?.id ? { ...t, remaining: Math.max(0, t.remaining - 1) } : t
-    ))
+      const data = await res.json()
 
-    setStep('confirmation')
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+      if (!res.ok || data.error) {
+        showToast(data.error ?? 'Pendaftaran gagal. Silakan coba lagi.')
+        return
+      }
+
+      setFormData(updated)
+      setTickets(prev => prev.map(t =>
+        t.id === updated.ticket?.id ? { ...t, remaining: Math.max(0, t.remaining - 1) } : t
+      ))
+      setStep('confirmation')
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } catch {
+      showToast('Koneksi gagal. Periksa internet dan coba lagi.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -175,6 +199,7 @@ export default function Home() {
       {step === 'payment' && formData.ticket && (
         <PaymentSection
           formData={formData}
+          submitting={submitting}
           onSubmit={handlePaymentSubmit}
           onBack={() => setStep('register')}
         />
@@ -187,6 +212,13 @@ export default function Home() {
         />
       )}
       <Footer />
+
+      {/* Toast notification */}
+      {toast && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-red-600 text-white px-5 py-3.5 rounded-2xl shadow-2xl font-semibold text-sm flex items-center gap-2 whitespace-nowrap animate-bounce">
+          ⚠️ {toast}
+        </div>
+      )}
     </div>
   )
 }
