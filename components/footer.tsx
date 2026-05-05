@@ -13,17 +13,17 @@ export function Footer() {
           <div>
             <div className="font-black text-white text-sm mb-3 uppercase tracking-wider">Informasi Event</div>
             <div className="space-y-2 text-sm text-white/70">
-              <div>📅 20 Juni 2026</div>
-              <div>📍 Padang, Sumatera Barat</div>
-              <div>⏰ Flag off: 05:30 WIB</div>
-              <div>🏃 5K · 10K · 21K</div>
+              <div>📅 7 Juni 2026</div>
+              <div>📍 Universitas Andalas Padang, Sumatera Barat</div>
+              <div>⏰ Flag off: 06:00 WIB</div>
+              <div>🏃 5K Fun Run</div>
             </div>
           </div>
           <div>
             <div className="font-black text-white text-sm mb-3 uppercase tracking-wider">Hubungi Kami</div>
             <div className="space-y-2 text-sm text-white/70">
-              <div>📧 info@milesforsmiles.id</div>
-              <div>📱 WA: 0812-3456-7890</div>
+              <div>📧 funrunmankom23@gmail.com</div>
+              <div>📱 WA: 0812-7089-3558</div>
               <div>📷 @milesforsmiles2026</div>
             </div>
           </div>

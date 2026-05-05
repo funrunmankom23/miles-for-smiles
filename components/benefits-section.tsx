@@ -1,34 +1,32 @@
-export function BenefitsSection() {
-  const items = [
-    {
-      emoji: '🥇',
-      title: 'Finisher Medal',
-      desc: 'Setiap peserta mendapatkan finisher medal eksklusif',
-    },
-    {
-      emoji: '👕',
-      title: 'Event T-Shirt',
-      desc: 'Kaos resmi Miles for Smiles 2026 untuk semua peserta',
-    },
-    {
-      emoji: '❤️',
-      title: '100% untuk Charity',
-      desc: 'Seluruh donasi disalurkan ke yayasan pendidikan anak',
-    },
-  ]
+const BENEFITS = [
+  { emoji: '👕', title: 'Running Jersey', desc: 'Kaos lari eksklusif Miles for Smiles 2026' },
+  { emoji: '🥇', title: 'Finisher Medal', desc: 'Medali finisher untuk setiap peserta' },
+  { emoji: '🔢', title: 'Nomor BIB', desc: 'Nomor peserta resmi' },
+  { emoji: '🎁', title: 'Random Souvenir', desc: 'Souvenir kejutan untuk semua peserta' },
+]
 
+export function BenefitsSection({ price }: { price: number }) {
   return (
-    <section className="bg-[#1e3a5f] px-4 py-12">
-      <div className="mx-auto max-w-5xl">
-        <div className="grid gap-8 md:grid-cols-3">
-          {items.map((item) => (
-            <div key={item.title} className="text-center">
-              <div className="mb-3 text-4xl">{item.emoji}</div>
-              <h3 className="mb-2 font-bold text-[#FFE234]">{item.title}</h3>
-              <p className="text-sm text-sky-200">{item.desc}</p>
+    <section className="bg-[#1268A1] px-4 py-12">
+      <div className="mx-auto max-w-4xl">
+        <h2 className="text-center text-2xl font-black text-white mb-8 tracking-wide">
+          BENEFIT PESERTA
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          {BENEFITS.map(item => (
+            <div key={item.title} className="bg-white/10 rounded-2xl p-5 text-center">
+              <div className="text-4xl mb-3">{item.emoji}</div>
+              <div className="font-black text-[#FFE234] text-sm mb-1">{item.title}</div>
+              <div className="text-white/70 text-xs">{item.desc}</div>
             </div>
           ))}
         </div>
+        <p className="text-center text-white/80 text-sm font-medium">
+          Harga Pendaftaran:{' '}
+          <span className="font-black text-[#FFE234] text-lg">
+            Rp {price.toLocaleString('id-ID')}
+          </span>
+        </p>
       </div>
     </section>
   )

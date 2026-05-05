@@ -16,7 +16,7 @@ const CARD_STYLES: Record<string, { bg: string; border: string }> = {
 
 export function TicketsSection({ tickets, loading = false, onSelect }: TicketsSectionProps) {
   return (
-    <section id="tickets" className="bg-[#F0F9FF] py-20 px-4">
+    <section id="tickets" className="bg-[#F0F9FF] pt-20 pb-10 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-14">
           <div className="inline-block bg-[#1268A1] text-[#FFE234] text-xs font-black tracking-[0.3em] px-5 py-2 rounded-full mb-4">
@@ -29,11 +29,11 @@ export function TicketsSection({ tickets, loading = false, onSelect }: TicketsSe
             Tiket Tersedia
           </h2>
           <p className="text-slate-500 mt-3 max-w-lg mx-auto text-sm">
-            Pilih kategori lari sesuai kemampuanmu. Semua kategori termasuk finisher medal dan kaos event!
+            Kategori 5K Fun Run dengan semua benefit lengkap!
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+        <div className="grid grid-cols-1 gap-6 mb-0 max-w-sm mx-auto w-full">
           {tickets.map(ticket => {
             const styles = CARD_STYLES[ticket.id]
             const r = Math.round(ticket.remaining / ticket.quota * 100)
@@ -74,7 +74,7 @@ export function TicketsSection({ tickets, loading = false, onSelect }: TicketsSe
                     ) : (
                       <div>
                         <span className="text-3xl font-black text-slate-800">Rp {ticket.price.toLocaleString('id-ID')}</span>
-                        <div className="text-slate-400 text-xs mt-0.5">donasi charity</div>
+                        <div className="text-slate-400 text-xs mt-0.5">Donasi Charity</div>
                       </div>
                     )}
                   </div>
@@ -120,22 +120,6 @@ export function TicketsSection({ tickets, loading = false, onSelect }: TicketsSe
           })}
         </div>
 
-        {/* Benefits */}
-        <div className="bg-[#1268A1] rounded-3xl p-6 text-white">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
-            {[
-              { icon: '🏅', title: 'Finisher Medal', desc: 'Setiap peserta mendapatkan finisher medal eksklusif' },
-              { icon: '👕', title: 'Event T-Shirt', desc: 'Kaos resmi Miles for Smiles 2026 untuk semua peserta' },
-              { icon: '❤️', title: '100% untuk Charity', desc: 'Seluruh donasi disalurkan ke yayasan pendidikan anak' },
-            ].map(item => (
-              <div key={item.title}>
-                <div className="text-3xl mb-2">{item.icon}</div>
-                <div className="font-black text-[#FFE234] mb-1">{item.title}</div>
-                <div className="text-white/70 text-xs">{item.desc}</div>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   )

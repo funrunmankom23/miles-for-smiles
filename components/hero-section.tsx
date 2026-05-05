@@ -17,45 +17,41 @@ export function HeroSection({ onGetTicket }: HeroSectionProps) {
 
       <div className="relative z-10 max-w-5xl mx-auto px-4 py-16 text-center">
         {/* Badge */}
-        <div className="inline-block mb-8 animate-bounce" style={{ animationDuration: '2s' }}>
-          <div className="bg-[#FFE234] text-[#1268A1] text-xs font-black tracking-[0.3em] uppercase px-6 py-2 rounded-full border-4 border-white shadow-xl">
-            ★ RUN FOR CHARITY ★
-          </div>
+        <div className="mb-6 inline-block rounded-full bg-[#FACC15] px-6 py-2">
+          <span className="font-bold tracking-widest text-[#0c4a6e]">★ RUN FOR CHARITY ★</span>
         </div>
 
         {/* Title */}
-        <div className="mb-6">
-          <h1 className="font-display text-white leading-none">
-            <span
-              className="block text-[4rem] sm:text-[7rem] font-black tracking-tight drop-shadow-2xl"
-              style={{ WebkitTextStroke: '3px #FFE234', textShadow: '6px 6px 0 #1268A1, 8px 8px 0 rgba(0,0,0,0.2)' }}
-            >
-              MILES
-            </span>
-            <span
-              className="block text-[2rem] sm:text-[3.5rem] font-black text-[#FFE234] tracking-widest my-1"
-              style={{ textShadow: '3px 3px 0 #1268A1' }}
-            >
-              for
-            </span>
-            <span
-              className="block text-[4rem] sm:text-[7rem] font-black tracking-tight"
-              style={{ color: '#FF6B6B', WebkitTextStroke: '3px #FFE234', textShadow: '6px 6px 0 #1268A1, 8px 8px 0 rgba(0,0,0,0.2)' }}
-            >
-              SMILES
-            </span>
-          </h1>
-          <div className="text-white/90 text-xl sm:text-3xl font-black tracking-[0.2em] mt-2" style={{ textShadow: '2px 2px 0 rgba(0,0,0,0.3)' }}>
-            2026
-          </div>
-        </div>
+        <h1 className="mb-10">
+          <span
+            className="block font-display text-7xl font-bold tracking-wider md:text-8xl"
+            style={{
+              color: '#FACC15',
+              textShadow: '3px 3px 0 #F97316, 6px 6px 0 rgba(0,0,0,0.1)'
+            }}
+          >
+            MILES
+          </span>
+          <span className="block font-display text-3xl font-bold tracking-widest text-white md:text-4xl">
+            for
+          </span>
+          <span
+            className="block font-display text-7xl font-bold tracking-wider md:text-8xl"
+            style={{
+              color: '#FACC15',
+              textShadow: '3px 3px 0 #F97316, 6px 6px 0 rgba(0,0,0,0.1)'
+            }}
+          >
+            SMILES
+          </span>
+        </h1>
 
         {/* Info badges */}
         <div className="flex flex-wrap justify-center gap-3 mb-10">
           {[
-            { icon: '📅', text: '20 Juni 2026' },
+            { icon: '📅', text: '7 Juni 2026' },
             { icon: '📍', text: 'Padang, Sumbar' },
-            { icon: '🏃', text: '5K · 10K · 21K' },
+            { icon: '🏃', text: '5K Fun Run' },
             { icon: '❤️', text: 'Run for Charity' },
           ].map(item => (
             <div key={item.text} className="bg-white/20 backdrop-blur-sm border border-white/40 text-white font-bold text-sm px-4 py-2 rounded-full flex items-center gap-2 hover:bg-white/30 transition-colors">
@@ -74,7 +70,7 @@ export function HeroSection({ onGetTicket }: HeroSectionProps) {
           <span>DAFTAR SEKARANG</span>
           <span className="group-hover:translate-x-1 transition-transform">→</span>
           <div className="absolute -top-3 -right-3 bg-red-500 text-white text-xs font-black px-2 py-1 rounded-full border-2 border-white animate-bounce">
-            GRATIS!
+            Rp 130K
           </div>
         </button>
 
@@ -83,8 +79,8 @@ export function HeroSection({ onGetTicket }: HeroSectionProps) {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 max-w-md mx-auto mt-12">
           {[
-            { value: '950', label: 'Slot Total' },
-            { value: '3', label: 'Kategori' },
+            { value: '500', label: 'Slot Total' },
+            { value: '1', label: 'Kategori' },
             { value: '100%', label: 'Charity' },
           ].map(item => (
             <div key={item.label} className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
@@ -96,7 +92,7 @@ export function HeroSection({ onGetTicket }: HeroSectionProps) {
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/60 text-center animate-bounce">
+      <div className="absolute bottom-1 left-1/2 -translate-x-1/2 text-white/60 text-center animate-bounce">
         <div className="text-xs mb-1">scroll</div>
         <div>↓</div>
       </div>
