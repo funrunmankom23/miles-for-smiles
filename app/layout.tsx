@@ -16,9 +16,31 @@ const bebasNeue = Bebas_Neue({
 });
 
 export const metadata: Metadata = {
-  title: 'Miles for Smiles 2026 - Fun Run Event',
-  description: 'Bergabunglah dalam Miles for Smiles 2026! Fun Run 5K untuk kebaikan dan kesehatan. Daftarkan diri Anda sekarang!',
-  generator: 'v0.app',
+  title: 'Miles for Smiles 2026 - Fun Run 5K Universitas Andalas',
+  description: 'Miles for Smiles 2026 adalah event Fun Run 5K yang diselenggarakan di Universitas Andalas, Padang. Daftarkan diri sekarang dan berlari untuk kebaikan!',
+  keywords: ['Miles for Smiles', 'fun run', 'lari', '5K', 'Universitas Andalas', 'Unand', 'Padang', 'event lari 2026', 'charity run'],
+  authors: [{ name: 'Miles for Smiles Unand' }],
+  metadataBase: new URL('https://miles-for-smiles-unand.vercel.app'),
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'Miles for Smiles 2026 - Fun Run 5K Universitas Andalas',
+    description: 'Miles for Smiles 2026 adalah event Fun Run 5K yang diselenggarakan di Universitas Andalas, Padang. Daftarkan diri sekarang dan berlari untuk kebaikan!',
+    url: 'https://miles-for-smiles-unand.vercel.app',
+    siteName: 'Miles for Smiles 2026',
+    locale: 'id_ID',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Miles for Smiles 2026 - Fun Run 5K Universitas Andalas',
+    description: 'Event Fun Run 5K di Universitas Andalas, Padang. Daftar sekarang!',
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   icons: {
     icon: [
       {
