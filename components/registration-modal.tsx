@@ -7,6 +7,8 @@ import type { TicketType } from "@/app/page"
 interface RegistrationModalProps {
   isOpen: boolean
   onClose: () => void
+  onCloseWithoutProof: () => void
+  onError: (message: string) => void
   ticket: TicketType | null
 }
 
@@ -40,7 +42,7 @@ const EMPTY_FORM: FormData = {
   persetujuan: false,
 }
 
-export function RegistrationModal({ isOpen, onClose, ticket }: RegistrationModalProps) {
+export function RegistrationModal({ isOpen, onClose, onCloseWithoutProof, onError, ticket }: RegistrationModalProps) {
   const [orderId, setOrderId] = useState(() => 'MFS-' + Math.random().toString(36).substring(2, 8).toUpperCase())
   const [step, setStep] = useState<ModalStep>('form')
   const [formData, setFormData] = useState<FormData>(EMPTY_FORM)
@@ -52,6 +54,7 @@ export function RegistrationModal({ isOpen, onClose, ticket }: RegistrationModal
   const [proofPreview, setProofPreview] = useState<string | null>(null)
   const [isUploading, setIsUploading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+
 
   const validate = (): boolean => {
     const e: FormErrors = {}
@@ -91,10 +94,10 @@ export function RegistrationModal({ isOpen, onClose, ticket }: RegistrationModal
         }),
       })
       const data = await res.json()
-      if (!res.ok || data.error) { alert(data.error ?? 'Pendaftaran gagal. Silakan coba lagi.'); return }
+      if (!res.ok || data.error) { onError(data.error ?? 'Pendaftaran gagal. Silakan coba lagi.'); return }
       setStep('payment')
     } catch {
-      alert('Koneksi gagal. Periksa internet dan coba lagi.')
+      onError('Koneksi gagal. Periksa internet dan coba lagi.')
     } finally {
       setIsSubmitting(false)
     }
@@ -131,10 +134,10 @@ export function RegistrationModal({ isOpen, onClose, ticket }: RegistrationModal
         }),
       })
       const data = await res.json()
-      if (!res.ok || data.error) { alert(data.error ?? 'Upload gagal. Coba lagi.'); return }
+      if (!res.ok || data.error) { onError(data.error ?? 'Upload gagal. Coba lagi.'); return }
       setStep('success')
     } catch {
-      alert('Upload gagal. Periksa internet dan coba lagi.')
+      onError('Upload gagal. Periksa internet dan coba lagi.')
     } finally {
       setIsUploading(false)
     }
@@ -142,6 +145,9 @@ export function RegistrationModal({ isOpen, onClose, ticket }: RegistrationModal
 
   const handleClose = () => {
     if (isSubmitting || isUploading) return
+    if (step === 'payment' && !proofFile) {
+      onCloseWithoutProof()
+    }
     setStep('form')
     setFormData(EMPTY_FORM)
     setErrors({})
@@ -400,6 +406,7 @@ export function RegistrationModal({ isOpen, onClose, ticket }: RegistrationModal
           )}
         </div>
       </div>
+
     </div>
   )
 }
