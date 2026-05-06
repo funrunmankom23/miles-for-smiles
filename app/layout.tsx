@@ -42,13 +42,8 @@ export const metadata: Metadata = {
     follow: true,
   },
   icons: {
-    icon: [
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/icon.svg',
+    icon: '/icon.png',
+    apple: '/icon.png',
   },
 }
 

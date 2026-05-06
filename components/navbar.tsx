@@ -1,5 +1,7 @@
 "use client"
 
+import Image from "next/image"
+
 export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 bg-[#1268A1] border-b-4 border-[#FFD700] shadow-lg">
@@ -8,8 +10,8 @@ export function Navbar() {
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           className="flex items-center gap-2 group"
         >
-          <div className="w-10 h-10 bg-[#FFE234] rounded-full flex items-center justify-center border-2 border-[#1268A1] shadow-md group-hover:scale-110 transition-transform">
-            <span className="text-[10px] font-black text-[#1268A1] leading-tight text-center">MFS</span>
+          <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#FFE234] shadow-md group-hover:scale-110 transition-transform shrink-0">
+            <Image src="/icon.png" alt="Miles for Smiles" width={40} height={40} className="w-full h-full object-cover" />
           </div>
           <div className="hidden sm:block">
             <div className="text-white font-black text-sm leading-none">MILES FOR SMILES</div>

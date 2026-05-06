@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { SplashScreen } from "@/components/splash-screen"
 import { Navbar } from "@/components/navbar"
 import { HeroSection } from "@/components/hero-section"
 import { TicketsSection } from "@/components/tickets-section"
@@ -77,6 +78,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#1A8FD1] font-body">
+      <SplashScreen />
       <Navbar />
       <HeroSection onGetTicket={() => {
         document.getElementById('tickets')?.scrollIntoView({ behavior: 'smooth' })
