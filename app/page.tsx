@@ -107,7 +107,7 @@ export default function Home() {
       )}
 
       {showSnackbar && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-md bg-gray-900 text-white rounded-2xl shadow-2xl px-5 py-4 flex flex-col gap-1">
+        <div className="fixed bottom-6 right-6 z-50 w-[calc(100%-3rem)] max-w-sm bg-gray-900 text-white rounded-2xl shadow-2xl px-5 py-4 flex flex-col gap-1">
           <div className="flex items-start justify-between gap-2">
             <p className="font-bold text-sm">Pendaftaran kamu sudah tercatat!</p>
             <button onClick={() => setShowSnackbar(false)} className="text-gray-400 hover:text-white text-lg leading-none shrink-0 -mt-0.5">✕</button>

@@ -30,7 +30,10 @@ export function Footer() {
         </div>
         <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="text-white/50 text-xs">© 2026 Miles for Smiles. Semua hak cipta dilindungi.</div>
-          <div className="text-white/50 text-xs">❤️ 100% donasi disalurkan ke yayasan pendidikan anak</div>
+          <div className="flex items-center gap-4">
+            <a href="/tnc" className="text-white/50 hover:text-white/80 text-xs transition-colors">Syarat &amp; Ketentuan</a>
+            <a href="/privacy" className="text-white/50 hover:text-white/80 text-xs transition-colors">Kebijakan Privasi</a>
+          </div>
         </div>
       </div>
     </footer>

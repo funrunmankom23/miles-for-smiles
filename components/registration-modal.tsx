@@ -240,7 +240,7 @@ export function RegistrationModal({ isOpen, onClose, onCloseWithoutProof, onErro
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1.5">Nomor Telepon <span className="text-red-500">*</span></label>
-                    <input type="tel" value={formData.telepon} onChange={e => handleInputChange("telepon", e.target.value)} placeholder="08xxxxxxxxxx"
+                    <input type="tel" value={formData.telepon} onChange={e => handleInputChange("telepon", e.target.value.replace(/\D/g, ''))} placeholder="08xxxxxxxxxx"
                       className={`w-full px-4 py-3 border-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0EA5E9] focus:border-[#0EA5E9] transition-colors text-sm ${errors.telepon ? "border-red-300 bg-red-50" : "border-gray-200"}`} />
                     {errors.telepon && <p className="text-red-500 text-xs mt-1">{errors.telepon}</p>}
                   </div>
@@ -279,7 +279,7 @@ export function RegistrationModal({ isOpen, onClose, onCloseWithoutProof, onErro
                   </div>
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-1.5">Nomor Telepon</label>
-                    <input type="tel" value={formData.teleponDarurat} onChange={e => handleInputChange("teleponDarurat", e.target.value)} placeholder="08xxxxxxxxxx"
+                    <input type="tel" value={formData.teleponDarurat} onChange={e => handleInputChange("teleponDarurat", e.target.value.replace(/\D/g, ''))} placeholder="08xxxxxxxxxx"
                       className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#0EA5E9] focus:border-[#0EA5E9] transition-colors text-sm" />
                   </div>
                 </div>
@@ -298,10 +298,30 @@ export function RegistrationModal({ isOpen, onClose, onCloseWithoutProof, onErro
 
               {/* Persetujuan */}
               <div className="flex items-start gap-3">
-                <input type="checkbox" id="persetujuan" checked={formData.persetujuan} onChange={e => handleInputChange("persetujuan", e.target.checked)}
-                  className="w-5 h-5 accent-[#1268A1] shrink-0 cursor-pointer" style={{ cursor: 'pointer' }} />
-                <label htmlFor="persetujuan" className="text-sm text-gray-600 cursor-pointer">
-                  Saya menyetujui <span className="text-[#1268A1] font-semibold">Syarat dan Ketentuan</span> serta <span className="text-[#1268A1] font-semibold">Kebijakan Privasi</span> Miles for Smiles 2026 <span className="text-red-500">*</span>
+                <button
+                  type="button"
+                  role="checkbox"
+                  aria-checked={formData.persetujuan}
+                  onClick={() => handleInputChange("persetujuan", !formData.persetujuan)}
+                  className={`shrink-0 w-5 h-5 rounded-[5px] border-2 flex items-center justify-center cursor-pointer transition-all duration-200 ${
+                    formData.persetujuan
+                      ? 'bg-[#1268A1] border-[#1268A1] scale-105'
+                      : 'bg-white border-gray-300 hover:border-[#1268A1]'
+                  }`}
+                >
+                  <svg
+                    className={`w-3 h-3 text-white transition-all duration-200 ${formData.persetujuan ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}
+                    viewBox="0 0 12 10" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                  >
+                    <polyline points="1,5 4.5,8.5 11,1" />
+                  </svg>
+                </button>
+                <label onClick={() => handleInputChange("persetujuan", !formData.persetujuan)} className="text-sm text-gray-600 cursor-pointer">
+                  Saya menyetujui{" "}
+                  <a href="/tnc" target="_blank" rel="noopener noreferrer" className="text-[#1268A1] font-semibold underline hover:text-[#0e5587]" onClick={e => e.stopPropagation()}>Syarat dan Ketentuan</a>
+                  {" "}serta{" "}
+                  <a href="/privacy" target="_blank" rel="noopener noreferrer" className="text-[#1268A1] font-semibold underline hover:text-[#0e5587]" onClick={e => e.stopPropagation()}>Kebijakan Privasi</a>
+                  {" "}Miles for Smiles 2026 <span className="text-red-500">*</span>
                 </label>
               </div>
               {errors.persetujuan && <p className="text-red-500 text-xs -mt-4">{errors.persetujuan}</p>}
