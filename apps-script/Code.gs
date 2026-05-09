@@ -220,7 +220,7 @@ function setupSheet() {
     cfgSh.appendRow(["Key", "Value", "Description"]);
     cfgSh.appendRow(["total_slots",     TOTAL_SLOTS,                    "Total quota pendaftaran"]);
     cfgSh.appendRow(["event_name",      "Miles for Smiles 2026",        "Nama event"]);
-    cfgSh.appendRow(["ticket_price_5k", 130000,                         "Harga tiket 5K Fun Run (IDR)"]);
+    cfgSh.appendRow(["ticket_price_5k", 140000,                         "Harga tiket 5K Fun Run (IDR)"]);
     cfgSh.appendRow(["event_date",      "2026-06-07",                   "Tanggal event (YYYY-MM-DD)"]);
     cfgSh.appendRow(["event_location",  "Universitas Andalas, Padang",  "Lokasi event"]);
     cfgSh.appendRow(["contact_wa",      "0812-7089-3558",               "WhatsApp panitia"]);
