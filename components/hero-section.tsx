@@ -70,7 +70,7 @@ export function HeroSection({ onGetTicket }: HeroSectionProps) {
           <span>DAFTAR SEKARANG</span>
           <span className="group-hover:translate-x-1 transition-transform">→</span>
           <div className="absolute -top-3 -right-3 bg-red-500 text-white text-xs font-black px-2 py-1 rounded-full border-2 border-white animate-bounce">
-            Rp 130K
+            Rp 140K
           </div>
         </button>
 
