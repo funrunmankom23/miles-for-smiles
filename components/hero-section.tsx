@@ -81,6 +81,7 @@ export function HeroSection({ onGetTicket }: HeroSectionProps) {
           {[
             { value: '500', label: 'Slot Total' },
             { value: '1', label: 'Kategori' },
+            { value: 'For', label: 'Charity Social' },
           ].map(item => (
             <div key={item.label} className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20">
               <div className="text-[#FFE234] text-2xl font-black">{item.value}</div>
