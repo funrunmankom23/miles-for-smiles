@@ -45,7 +45,7 @@ export default function TNCPage() {
           <h2 className="text-lg font-black text-gray-900">3. Pendaftaran dan Pembayaran</h2>
           <ul className="text-gray-600 text-sm leading-relaxed space-y-2 list-disc list-inside">
             <li>Pendaftaran dinyatakan sah setelah formulir terisi lengkap dan bukti transfer berhasil diunggah.</li>
-            <li>Biaya pendaftaran sebesar <strong>Rp 130.000</strong> per peserta untuk kategori 5K Fun Run.</li>
+            <li>Biaya pendaftaran sebesar <strong>Rp 140.000</strong> per peserta untuk kategori 5K Fun Run.</li>
             <li>Pembayaran dilakukan melalui transfer bank atau QRIS yang tertera pada halaman pembayaran.</li>
             <li>Slot terbatas 500 peserta. Pendaftaran ditutup otomatis setelah kuota terpenuhi.</li>
             <li>Panitia akan melakukan verifikasi bukti transfer dalam 1×24 jam pada hari kerja.</li>
