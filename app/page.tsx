@@ -27,7 +27,7 @@ const BASE_TICKETS: TicketType[] = [
     distance: '5K',
     price: 140000,
     color: '#F97316',
-    perks: ['Finisher Medal', 'Event Jersey (Baju)', 'Nomor BIB', 'Random Souvenir'],
+    perks: ['Finisher Medal', 'Event Jersey (Baju)', 'Nomor BIB', 'Random Sport Item','Acara Hiburan Gratis','Voucher dan Akses Semua Booth Tenant'],
     quota: 500,
     remaining: 500,
   },
