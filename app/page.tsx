@@ -25,7 +25,7 @@ const BASE_TICKETS: TicketType[] = [
     id: 'fun5k',
     name: 'Fun Run',
     distance: '5K',
-    price: 130000,
+    price: 140000,
     color: '#F97316',
     perks: ['Finisher Medal', 'Event Jersey (Baju)', 'Nomor BIB', 'Random Souvenir'],
     quota: 500,
