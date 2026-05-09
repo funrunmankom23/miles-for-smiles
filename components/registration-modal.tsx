@@ -164,7 +164,7 @@ export function RegistrationModal({ isOpen, onClose, onCloseWithoutProof, onErro
 
   if (!isOpen) return null
 
-  const totalPrice = ticket ? `Rp ${ticket.price.toLocaleString('id-ID')}` : 'Rp 130.000'
+  const totalPrice = ticket ? `Rp ${ticket.price.toLocaleString('id-ID')}` : 'Rp 140.000'
 
   const headerTitle =
     step === 'form' ? 'Formulir Pendaftaran' :
