@@ -79,7 +79,7 @@ export function HeroSection({ onGetTicket }: HeroSectionProps) {
         {/* Stats */}
         <div className="grid grid-cols-3 gap-4 max-w-md mx-auto mt-12">
           {[
-            { value: '500', label: 'Slot Total' },
+            { value: 'Limited', label: 'Slot' },
             { value: '1', label: 'Kategori' },
             { value: 'For', label: 'Charity Social' },
           ].map(item => (
