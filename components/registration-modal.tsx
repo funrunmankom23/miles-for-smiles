@@ -7,7 +7,7 @@ import type { TicketType } from "@/app/page"
 interface RegistrationModalProps {
   isOpen: boolean
   onClose: () => void
-  onCloseWithoutProof: () => void
+  onCloseWithoutProof?: () => void
   onError: (message: string) => void
   ticket: TicketType | null
 }
@@ -140,9 +140,9 @@ export function RegistrationModal({ isOpen, onClose, onCloseWithoutProof, onErro
 
   const handleClose = () => {
     if (isSubmitting || isUploading) return
-    if (step === 'payment' && !proofFile) {
-      onCloseWithoutProof()
-    }
+    // if (step === 'payment' && !proofFile) {
+    //   onCloseWithoutProof()
+    // }
     setStep('form')
     setFormData(EMPTY_FORM)
     setErrors({})

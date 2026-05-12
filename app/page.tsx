@@ -38,12 +38,10 @@ export default function Home() {
   const [slotsLoading, setSlotsLoading] = useState(true)
   const [selectedTicket, setSelectedTicket] = useState<TicketType | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
-  const [showSnackbar, setShowSnackbar] = useState(false)
+  // const [showSnackbar, setShowSnackbar] = useState(false)
   const [errorBanner, setErrorBanner] = useState<string | null>(null)
 
-  const handleCloseWithoutProof = () => {
-    setShowSnackbar(true)
-  }
+  // const handleCloseWithoutProof = () => { setShowSnackbar(true) }
 
   const handleError = (message: string) => {
     setErrorBanner(message)
@@ -93,8 +91,7 @@ export default function Home() {
       <RegistrationModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
-        onCloseWithoutProof={handleCloseWithoutProof}
-        onError={handleError}
+onError={handleError}
         ticket={selectedTicket}
       />
 
@@ -108,6 +105,7 @@ export default function Home() {
         </div>
       )}
 
+      {/* showSnackbar disabled — no data is saved until proof is uploaded
       {showSnackbar && (
         <div className="fixed bottom-6 right-6 z-50 w-[calc(100%-3rem)] max-w-sm bg-gray-900 text-white rounded-2xl shadow-2xl px-5 py-4 flex flex-col gap-1">
           <div className="flex items-start justify-between gap-2">
@@ -126,7 +124,7 @@ export default function Home() {
             </a>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   )
 }
