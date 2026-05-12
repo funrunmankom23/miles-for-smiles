@@ -47,7 +47,7 @@ export function RegistrationModal({ isOpen, onClose, onCloseWithoutProof, onErro
   const [step, setStep] = useState<ModalStep>('form')
   const [formData, setFormData] = useState<FormData>(EMPTY_FORM)
   const [errors, setErrors] = useState<FormErrors>({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const isSubmitting = false
 
   // Payment proof
   const [proofFile, setProofFile] = useState<File | null>(null)
@@ -70,37 +70,10 @@ export function RegistrationModal({ isOpen, onClose, onCloseWithoutProof, onErro
     return Object.keys(e).length === 0
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!validate()) return
-    setIsSubmitting(true)
-    try {
-      const res = await fetch('/api/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          orderId,
-          fullName: formData.namaLengkap,
-          email: formData.email,
-          phone: formData.telepon,
-          shirtSize: formData.ukuranBaju,
-          emergencyContact: formData.kontakDarurat,
-          emergencyPhone: formData.teleponDarurat,
-          healthNotes: formData.riwayatKesehatan,
-          ticketId: ticket?.id,
-          ticketName: ticket?.name,
-          ticketDistance: ticket?.distance,
-          totalPrice: ticket ? `Rp ${ticket.price.toLocaleString('id-ID')}` : '-',
-        }),
-      })
-      const data = await res.json()
-      if (!res.ok || data.error) { onError(data.error ?? 'Pendaftaran gagal. Silakan coba lagi.'); return }
-      setStep('payment')
-    } catch {
-      onError('Koneksi gagal. Periksa internet dan coba lagi.')
-    } finally {
-      setIsSubmitting(false)
-    }
+    setStep('payment')
   }
 
   const handleProofChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -123,7 +96,28 @@ export function RegistrationModal({ isOpen, onClose, onCloseWithoutProof, onErro
         reader.readAsDataURL(proofFile)
       })
 
-      const res = await fetch('/api/upload-proof', {
+      const registerRes = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          orderId,
+          fullName: formData.namaLengkap,
+          email: formData.email,
+          phone: formData.telepon,
+          shirtSize: formData.ukuranBaju,
+          emergencyContact: formData.kontakDarurat,
+          emergencyPhone: formData.teleponDarurat,
+          healthNotes: formData.riwayatKesehatan,
+          ticketId: ticket?.id,
+          ticketName: ticket?.name,
+          ticketDistance: ticket?.distance,
+          totalPrice: ticket ? `Rp ${ticket.price.toLocaleString('id-ID')}` : '-',
+        }),
+      })
+      const registerData = await registerRes.json()
+      if (!registerRes.ok || registerData.error) { onError(registerData.error ?? 'Pendaftaran gagal. Silakan coba lagi.'); return }
+
+      const uploadRes = await fetch('/api/upload-proof', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -133,8 +127,9 @@ export function RegistrationModal({ isOpen, onClose, onCloseWithoutProof, onErro
           mimeType: proofFile.type || 'image/jpeg',
         }),
       })
-      const data = await res.json()
-      if (!res.ok || data.error) { onError(data.error ?? 'Upload gagal. Coba lagi.'); return }
+      const uploadData = await uploadRes.json()
+      if (!uploadRes.ok || uploadData.error) { onError(uploadData.error ?? 'Upload gagal. Coba lagi.'); return }
+
       setStep('success')
     } catch {
       onError('Upload gagal. Periksa internet dan coba lagi.')
