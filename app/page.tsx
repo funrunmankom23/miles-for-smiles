@@ -91,7 +91,7 @@ export default function Home() {
       <RegistrationModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
-onError={handleError}
+        onError={handleError}
         ticket={selectedTicket}
       />
 
