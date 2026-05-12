@@ -48,6 +48,7 @@ export function RegistrationModal({ isOpen, onClose, onCloseWithoutProof, onErro
   const [formData, setFormData] = useState<FormData>(EMPTY_FORM)
   const [errors, setErrors] = useState<FormErrors>({})
   const isSubmitting = false
+  const [showConfirm, setShowConfirm] = useState(false)
 
   // Payment proof
   const [proofFile, setProofFile] = useState<File | null>(null)
@@ -140,9 +141,15 @@ export function RegistrationModal({ isOpen, onClose, onCloseWithoutProof, onErro
 
   const handleClose = () => {
     if (isSubmitting || isUploading) return
-    // if (step === 'payment' && !proofFile) {
-    //   onCloseWithoutProof()
-    // }
+    if (step === 'form' || step === 'payment') {
+      setShowConfirm(true)
+      return
+    }
+    doClose()
+  }
+
+  const doClose = () => {
+    setShowConfirm(false)
     setStep('form')
     setFormData(EMPTY_FORM)
     setErrors({})
@@ -420,6 +427,31 @@ export function RegistrationModal({ isOpen, onClose, onCloseWithoutProof, onErro
             </div>
           )}
         </div>
+
+        {/* Confirmation overlay */}
+        {showConfirm && (
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/40 backdrop-blur-sm rounded-3xl">
+            <div className="bg-white rounded-2xl shadow-xl mx-6 p-6 max-w-sm w-full text-center">
+              <div className="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                </svg>
+              </div>
+              <h3 className="text-base font-black text-gray-900 mb-2">Yakin ingin keluar?</h3>
+              <p className="text-sm text-gray-500 mb-5">Data kamu belum tersimpan. Pendaftaran hanya berhasil setelah bukti transfer diunggah.</p>
+              <div className="flex gap-3">
+                <button onClick={() => setShowConfirm(false)}
+                  className="flex-1 py-2.5 rounded-xl border-2 border-gray-200 text-gray-700 font-bold text-sm hover:bg-gray-50 transition-colors">
+                  Lanjutkan Isi
+                </button>
+                <button onClick={doClose}
+                  className="flex-1 py-2.5 rounded-xl bg-red-500 hover:bg-red-600 text-white font-bold text-sm transition-colors">
+                  Keluar
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
     </div>
