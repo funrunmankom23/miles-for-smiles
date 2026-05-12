@@ -1,7 +1,9 @@
 const BENEFITS = [
   { emoji: '👕', title: 'Running Jersey', desc: 'Kaos lari eksklusif Miles for Smiles 2026' },
+  { emoji: '🎒', title: 'Tas Serut', desc: 'Tas Serut Hitam Ekslusif berisi race pack Miles for Smiles 2026' },
   { emoji: '🥇', title: 'Finisher Medal', desc: 'Medali finisher untuk setiap peserta' },
   { emoji: '🔢', title: 'Nomor BIB', desc: 'Nomor peserta resmi' },
+  { emoji: '🥤', title: 'Refreshment', desc: 'Hidrasi dan Buah' },
   { emoji: '🎟️', title: 'Akses Hiburan dan Booth Tenant', desc: 'Peserta dapat menikmati hiburan dan mengunjungi booth yang ada' },
 ]
 
