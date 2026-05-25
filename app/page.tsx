@@ -16,8 +16,6 @@ export interface TicketType {
   price: number
   color: string
   perks: string[]
-  quota: number
-  remaining: number
 }
 
 const BASE_TICKETS: TicketType[] = [
@@ -28,7 +26,6 @@ const BASE_TICKETS: TicketType[] = [
     price: 140000,
     color: '#F97316',
     perks: ['Donasi Sosial','Tas Serut','Finisher Medal', 'Event Jersey (Baju) & Nomor BIB', 'Refreshment','Acara Hiburan Gratis','Voucher dan Akses Semua Booth Tenant'],
-    quota: 500,
   },
 ]
 
