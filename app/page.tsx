@@ -29,7 +29,6 @@ const BASE_TICKETS: TicketType[] = [
     color: '#F97316',
     perks: ['Donasi Sosial','Tas Serut','Finisher Medal', 'Event Jersey (Baju) & Nomor BIB', 'Refreshment','Acara Hiburan Gratis','Voucher dan Akses Semua Booth Tenant'],
     quota: 500,
-    remaining: 500,
   },
 ]
 
