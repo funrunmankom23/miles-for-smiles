@@ -29,7 +29,7 @@ interface FormErrors {
 
 type ModalStep = 'form' | 'payment' | 'success'
 
-const UKURAN_BAJU = ["S", "M", "L", "XL", "XXL", "XXXL"]
+const UKURAN_BAJU = ["S", "M", "L", "XL"]
 
 const EMPTY_FORM: FormData = {
   namaLengkap: "",
